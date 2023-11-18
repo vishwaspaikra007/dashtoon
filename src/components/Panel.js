@@ -44,15 +44,18 @@ export default function Panel(props) {
     const [panelHeight, setPanelHeight] = useState('')
     const [imgSrc, setImgSrc] = useState(imgNoImage)
     const [dialogue, setDialogue] = useState("")
+    const [controller, setController] = useState(new AbortController())
+    // let controller = new AbortController();
 
     const openPromt = () => {
       document.body.style.overflow = 'hidden'
-
+      
       const panel = refPanel.current
       const panelBox = refPanelBox.current
       const defaultImg = refDefaultImg.current
       const img = refImg.current
       const imgBox = refImgBox.current
+      
 
       const offSetLeft = panelBox.getBoundingClientRect().left
       const offSetTop = panelBox.getBoundingClientRect().top
@@ -77,13 +80,15 @@ export default function Panel(props) {
     }
 
     const closePrompt = () => {
-      document.body.style.overflow = ''
+      document.body.style.overflowY  = 'scroll'
+      console.log("close")
 
       const panel = refPanel.current
       const panelBox = refPanelBox.current
       const defaultImg = refDefaultImg.current
       const img = refImg.current
       const imgBox = refImgBox.current
+      
 
       panel.style.transform = `translate(0px, 0px)`
       panel.style.width = `360px`
@@ -100,6 +105,9 @@ export default function Panel(props) {
     async function query(data) {
       console.log(data)
       try {
+        
+        // controller = new AbortController();
+        setController(new AbortController)
         const response = await fetch(
           "https://xdwvg9no7pefghrn.us-east-1.aws.endpoints.huggingface.cloud",
           {
@@ -110,6 +118,7 @@ export default function Panel(props) {
             },
             method: "POST",
             body: JSON.stringify(data),
+            signal: controller.signal
           }
         );
         console.log("Fetched data from server")
@@ -129,46 +138,65 @@ export default function Panel(props) {
         if(response.successful)
           setImgSrc(URL.createObjectURL(response.result))
         else 
-          alert(response.result)
+          // alert("1: " + response.result)
 
         loading.style.display = 'none'
         
       }).catch(err => {
         loading.style.display = 'none'
         console.log(err)
-        alert(err)
+        // alert("2: " + err)
       })
     }
 
     useEffect(() => {
       if(edit) {
-        if(toggle)
+        const panel = refPanel.current
+        panel.style.transition = `0.5s cubic-bezier(0.075, 0.82, 0.165, 1)`
+        if(toggle){
           openPromt()
-        else 
+        } else { 
           closePrompt()
+        }
+        console.log(toggle)
       }
       return () => {
       }
-    }, [toggle, resize])
+    }, [toggle])
 
+    useEffect(() => {
+      if(edit && toggle) {
+        const panel = refPanel.current
+        panel.style.transition = `0s`
+        openPromt()
+      }
+      return () => {
+      }
+    }, [resize])
     
-    
+    const handleAbort = () => {
+      console.log('abort', controller)
+      controller.abort()
+      const loading = refLoading.current
+      loading.style.display = 'none'
+    }
 
   return (
     <div className='PanelBox' ref={refPanelBox}>
       <div className='Panel' ref={refPanel}>
           <div className='Loading'  ref={refLoading}>
             <img src={imgLoading}/>
+            <button onClick={e => handleAbort()}>Cancel</button>
           </div>
-          {edit ? <img ref={refDefaultImg} src={addIcon} className='DefaultImg' onClick={e => setToggle(!toggle)}/> : ''}
+          {edit ? <img ref={refDefaultImg} src={addIcon} className='DefaultImg' onClick={() => setToggle(toggle ? false: true )}/> : ''}
           <div className='ImgBox'>
             <img src={imgSrc} className='Img'/>
             <div className='Dialogue'><span>{dialogue}</span></div>
           </div>
           <div className='InputBox' ref={refImgBox}>
             <input placeholder='Enter Prompt for image here' className='Input' value={input} onChange={e => setInput(e.target.value)} />
-            <input maxLength={20} placeholder='Enter text for speech bubble' className='DialogueInput' value={dialogue} onChange={e => setDialogue(e.target.value)} />
-            <img ref={refImg} className='Send' src={imgSend} onClick={e => handleRequest(e)}/>
+            <input maxLength={80} placeholder='Enter text for speech bubble' className='DialogueInput' value={dialogue} onChange={e => setDialogue(e.target.value)} />
+            <button onClick={e => handleRequest(e)}><img ref={refImg} className='Send' src={imgSend} /></button>
           </div>
       </div>
     </div>

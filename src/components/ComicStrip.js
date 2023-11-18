@@ -7,7 +7,7 @@ export default function ComicStrip() {
     const images = [{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""}]
     const [panels, setPanels] = useState(images)
     const [resize, setResize] = useState(0)
-    const [edit, setEdit] = useState(false)
+    const [edit, setEdit] = useState(true)
 
 
     const handleResize = () => {
