@@ -138,7 +138,7 @@ export default function Panel(props) {
         if(response.successful)
           setImgSrc(URL.createObjectURL(response.result))
         else 
-          // alert("1: " + response.result)
+          console.log("1: " + response.result)
 
         loading.style.display = 'none'
         
