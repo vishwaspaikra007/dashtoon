@@ -1,0 +1,29 @@
+.Nav {
+    width: 90%;
+    margin: 10px;
+    background-color: white;
+    box-shadow: 0 0 12px -7px;
+    border-radius: 5px;
+    border: 2px solid #d4d4d4;
+    height: 60px;
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.Edit {
+    right: 20px;
+    position: absolute;
+    width: 70px;
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    font-weight: 600;
+    background: linear-gradient(45deg, #2da9c7, #51bc9f);
+    cursor: pointer;
+}
+
+.Edit:active {
+    transform: scale(0.9);
+}
