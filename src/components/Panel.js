@@ -6,6 +6,8 @@ import imgSend from '../images/send.svg'
 import imgLoading from '../images/loading.svg'
 import imgAdd2 from '../images/add2.png'
 import imgNoImage from '../images/noImage.png'
+import * as markerjs2 from 'markerjs2'
+
 /*
 async function query(data) {
 	const response = await fetch(
@@ -37,6 +39,7 @@ export default function Panel(props) {
     const refImg = useRef(null)
     const refImgBox = useRef(null)
     const refLoading = useRef(null)
+    const refImgSrc = useRef(null)
 
     const [input, setInput] = useState("")
     const [toggle, setToggle] = useState(false)
@@ -67,7 +70,7 @@ export default function Panel(props) {
       // panel.style.height = `${windowheight}px`
       panel.style.width = `100vw`
       panel.style.height = `100vh`
-      panel.style.zIndex = 100
+      panel.style.zIndex = 4
 
       defaultImg.style.margin = `20px`;
       defaultImg.style.transform = `rotate(45deg)`
@@ -187,6 +190,29 @@ export default function Panel(props) {
       panel.style.zIndex = 1
     }
 
+
+    const showMarkerArea = () => {
+      if (refImgSrc.current !== null) {
+        const defaultImg = refDefaultImg.current
+        defaultImg.style.display = 'none'
+        // create a marker.js MarkerArea
+        const markerArea = new markerjs2.MarkerArea(refImgSrc.current);
+        // attach an event handler to assign annotated image back to our image element
+        markerArea.addEventListener('render', event => {
+          if (refImgSrc.current) {
+            refImgSrc.current.src = event.dataUrl;
+          }
+        });
+
+        markerArea.addEventListener('close', event => {
+          defaultImg.style.display = 'block'
+        });
+        // launch marker.js
+        markerArea.show();
+      }
+    }
+
+
   return (
     <div className='PanelBox' ref={refPanelBox}>
       <div className='Panel' ref={refPanel} onMouseEnter={e => {if(!edit) handleScaleUp()}} onMouseLeave={e => {if(!edit) handleScaleDown()}}>
@@ -196,12 +222,13 @@ export default function Panel(props) {
           </div>
           {edit ? <button ref={refDefaultImg} className='DefaultImg' onClick={() => setToggle(toggle ? false: true )}></button> : ''}
           <div className='ImgBox'>
-            <img src={imgSrc} className='Img' style={{filter: imgSrc == imgNoImage ? `brightness(3.5) drop-shadow(2px 4px 9px black)` : ``}}/>
-            <div className='Dialogue'><span>{dialogue}</span></div>
+            {toggle ? <button onClick={() => showMarkerArea()}></button> : ``}
+            <img ref={refImgSrc} src={imgSrc} className='Img' style={{filter: imgSrc == imgNoImage ? `brightness(3.5) drop-shadow(2px 4px 9px black)` : ``}}/>
+            {/* <div className='Dialogue'><span>{dialogue}</span></div> */}
           </div>
           <div className='InputBox' ref={refImgBox}>
             <input placeholder='Enter Prompt for image here' className='Input' value={input} onChange={e => setInput(e.target.value)} />
-            <input maxLength={80} placeholder='Enter text for speech bubble' className='DialogueInput' value={dialogue} onChange={e => setDialogue(e.target.value)} />
+            {/* <input maxLength={80} placeholder='Enter text for speech bubble' className='DialogueInput' value={dialogue} onChange={e => setDialogue(e.target.value)} /> */}
             <button onClick={e => handleRequest(e)}><img ref={refImg} className='Send' src={imgSend} /></button>
           </div>
       </div>
