@@ -1,6 +1,9 @@
 .App {
   text-align: center;
-  background-image: url(./images/bg.jpg);
+  /* background-image: url(./images/bg.jpg); */
   background-attachment: fixed;
   min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #fc6341;
 }

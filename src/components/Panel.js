@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./Panel.css"
-import addIcon from '../images/add.png'
+import addIcon from '../images/add.svg'
 import imgSpider from '../images/spider.webp'
-import imgSend from '../images/send.png'
-import imgLoading from '../images/loading.gif'
+import imgSend from '../images/send.svg'
+import imgLoading from '../images/loading.svg'
 import imgAdd2 from '../images/add2.png'
-import imgNoImage from '../images/noImage.jpg'
+import imgNoImage from '../images/noImage.png'
 /*
 async function query(data) {
 	const response = await fetch(
@@ -44,8 +44,6 @@ export default function Panel(props) {
     const [panelHeight, setPanelHeight] = useState('')
     const [imgSrc, setImgSrc] = useState(imgNoImage)
     const [dialogue, setDialogue] = useState("")
-    const [controller, setController] = useState(new AbortController())
-    // let controller = new AbortController();
 
     const openPromt = () => {
       document.body.style.overflow = 'hidden'
@@ -106,8 +104,6 @@ export default function Panel(props) {
       console.log(data)
       try {
         
-        // controller = new AbortController();
-        setController(new AbortController)
         const response = await fetch(
           "https://xdwvg9no7pefghrn.us-east-1.aws.endpoints.huggingface.cloud",
           {
@@ -118,7 +114,6 @@ export default function Panel(props) {
             },
             method: "POST",
             body: JSON.stringify(data),
-            signal: controller.signal
           }
         );
         console.log("Fetched data from server")
@@ -137,22 +132,23 @@ export default function Panel(props) {
 
         if(response.successful)
           setImgSrc(URL.createObjectURL(response.result))
-        else 
+        else {
+          alert("1: " + response.result)
           console.log("1: " + response.result)
-
+        }
         loading.style.display = 'none'
         
       }).catch(err => {
         loading.style.display = 'none'
         console.log(err)
-        // alert("2: " + err)
+        alert("2: " + err)
       })
     }
 
     useEffect(() => {
       if(edit) {
         const panel = refPanel.current
-        panel.style.transition = `0.5s cubic-bezier(0.075, 0.82, 0.165, 1)`
+        // panel.style.transition = `0.5s cubic-bezier(0.075, 0.82, 0.165, 1)`
         if(toggle){
           openPromt()
         } else { 
@@ -167,7 +163,7 @@ export default function Panel(props) {
     useEffect(() => {
       if(edit && toggle) {
         const panel = refPanel.current
-        panel.style.transition = `0s`
+        // panel.style.transition = `0s`
         openPromt()
       }
       return () => {
@@ -175,22 +171,32 @@ export default function Panel(props) {
     }, [resize])
     
     const handleAbort = () => {
-      console.log('abort', controller)
-      controller.abort()
+      console.log('abort')
       const loading = refLoading.current
       loading.style.display = 'none'
     }
 
+    const handleScaleUp = () => {
+      const panel = refPanel.current
+      panel.style.transform = `scale(1.5)`
+      panel.style.zIndex = 200
+    }
+    const handleScaleDown = () => {
+      const panel = refPanel.current
+      panel.style.transform = `scale(1)`
+      panel.style.zIndex = 1
+    }
+
   return (
     <div className='PanelBox' ref={refPanelBox}>
-      <div className='Panel' ref={refPanel}>
+      <div className='Panel' ref={refPanel} onMouseEnter={e => {if(!edit) handleScaleUp()}} onMouseLeave={e => {if(!edit) handleScaleDown()}}>
           <div className='Loading'  ref={refLoading}>
             <img src={imgLoading}/>
             <button onClick={e => handleAbort()}>Cancel</button>
           </div>
-          {edit ? <img ref={refDefaultImg} src={addIcon} className='DefaultImg' onClick={() => setToggle(toggle ? false: true )}/> : ''}
+          {edit ? <button ref={refDefaultImg} className='DefaultImg' onClick={() => setToggle(toggle ? false: true )}></button> : ''}
           <div className='ImgBox'>
-            <img src={imgSrc} className='Img'/>
+            <img src={imgSrc} className='Img' style={{filter: imgSrc == imgNoImage ? `brightness(3.5) drop-shadow(2px 4px 9px black)` : ``}}/>
             <div className='Dialogue'><span>{dialogue}</span></div>
           </div>
           <div className='InputBox' ref={refImgBox}>

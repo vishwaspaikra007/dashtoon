@@ -9,6 +9,13 @@
     display: flex;
     position: relative;
     align-items: center;
+    position: sticky;
+    top: 20px;
+    z-index: 2;
+    width: 100%;
+    backdrop-filter: blur(9px);
+    background-color: #fffaf49e;
+    box-shadow: 0 0 10px -4px;
 }
 
 .Edit {
@@ -20,7 +27,7 @@
     padding: 5px;
     color: white;
     font-weight: 600;
-    background: linear-gradient(45deg, #2da9c7, #51bc9f);
+    background: linear-gradient(45deg, #fc6341, #d5ae00);
     cursor: pointer;
 }
 

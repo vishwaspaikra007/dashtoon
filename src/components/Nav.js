@@ -5,9 +5,9 @@ export default function Nav(props) {
     const {edit, setEdit} = props
   return (
     <div className='Nav'>
-        <div className='Edit' onClick={e => setEdit(!edit)}>
+        <button className='Edit' onClick={e => setEdit(!edit)}>
             {edit ? 'Read': 'Edit'}
-        </div>
+        </button>
     </div>
   )
 }

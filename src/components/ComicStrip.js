@@ -24,6 +24,8 @@ export default function ComicStrip() {
     
   return (
     <div id='ComicStrip'>
+      <h1>Generate 10 Comic Panel</h1>
+      <p>By Vishwas Paikra</p>
       <Nav edit={edit} setEdit={val => setEdit(val)}/>
       {
         panels.map((obj, index) => {
