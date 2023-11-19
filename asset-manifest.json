@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/dashtoon/static/css/main.10802c88.css",
+    "main.css": "/dashtoon/static/css/main.2c8ee4d4.css",
     "main.js": "/dashtoon/static/js/main.67ac06b1.js",
     "static/js/787.9da9bd17.chunk.js": "/dashtoon/static/js/787.9da9bd17.chunk.js",
     "static/media/dialogueBox.png": "/dashtoon/static/media/dialogueBox.4a488f188e7e3a00f97e.png",
@@ -10,12 +10,12 @@
     "static/media/send.svg": "/dashtoon/static/media/send.95a4ecba34dea48602ff7c4b95ee2559.svg",
     "static/media/add.svg": "/dashtoon/static/media/add.300d1204ea028df523fa1f9e812c3fae.svg",
     "index.html": "/dashtoon/index.html",
-    "main.10802c88.css.map": "/dashtoon/static/css/main.10802c88.css.map",
+    "main.2c8ee4d4.css.map": "/dashtoon/static/css/main.2c8ee4d4.css.map",
     "main.67ac06b1.js.map": "/dashtoon/static/js/main.67ac06b1.js.map",
     "787.9da9bd17.chunk.js.map": "/dashtoon/static/js/787.9da9bd17.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.10802c88.css",
+    "static/css/main.2c8ee4d4.css",
     "static/js/main.67ac06b1.js"
   ]
 }
