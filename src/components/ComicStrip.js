@@ -3,7 +3,9 @@ import Panel from './Panel'
 import './ComicStrip.css'
 import Nav from './Nav'
 
-export default function ComicStrip() {
+export default function ComicStrip(props) {
+    const {setShowInfo}  = props
+
     const images = [{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""},{img: ""}]
     const [panels, setPanels] = useState(images)
     const [resize, setResize] = useState(0)
@@ -26,7 +28,7 @@ export default function ComicStrip() {
     <div id='ComicStrip'>
       <h1>Generate 10 Comic Panel</h1>
       <p>By Vishwas Paikra</p>
-      <Nav edit={edit} setEdit={val => setEdit(val)}/>
+      <Nav edit={edit} setEdit={val => setEdit(val)} setShowInfo={setShowInfo}/>
       {
         panels.map((obj, index) => {
           return <Panel key={index} index={index} img={obj.img} resize={resize} edit={edit}/>

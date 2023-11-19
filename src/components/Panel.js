@@ -218,12 +218,14 @@ export default function Panel(props) {
       <div className='Panel' ref={refPanel} onMouseEnter={e => {if(!edit) handleScaleUp()}} onMouseLeave={e => {if(!edit) handleScaleDown()}}>
           <div className='Loading'  ref={refLoading}>
             <img src={imgLoading}/>
-            <button onClick={e => handleAbort()}>Cancel</button>
+            <button className='Edit' onClick={e => handleAbort()}>Cancel</button>
           </div>
           {edit ? <button ref={refDefaultImg} className='DefaultImg' onClick={() => setToggle(toggle ? false: true )}></button> : ''}
           <div className='ImgBox'>
             {toggle ? <button onClick={() => showMarkerArea()}></button> : ``}
-            <img ref={refImgSrc} src={imgSrc} className='Img' style={{filter: imgSrc == imgNoImage ? `brightness(3.5) drop-shadow(2px 4px 9px black)` : ``}}/>
+            <img ref={refImgSrc} src={imgSrc} className='Img' style={ imgSrc == imgNoImage ?
+              {filter: `brightness(3.5) drop-shadow(2px 4px 9px black)`} : {boxShadow: `0 0 12px -4px`}
+              }/>
             {/* <div className='Dialogue'><span>{dialogue}</span></div> */}
           </div>
           <div className='InputBox' ref={refImgBox}>

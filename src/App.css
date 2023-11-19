@@ -7,3 +7,38 @@
   background-size: cover;
   background-color: #fc6341;
 }
+
+#information {
+  position: fixed;
+  width: 90vw;
+  height: 90vh;
+  margin: 5vh 5vw;
+  border: 4px solid white;
+  z-index: 5;
+  background-color: #18181878;
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-size: 20px;
+  font-family: cursive;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#infoClose {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid white;
+  position: absolute;
+  right: 10px;
+  background-image: url(./images/add.svg);
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+
+#information > ul {
+  margin-top: 60px;
+  font-family: cursive;
+}
